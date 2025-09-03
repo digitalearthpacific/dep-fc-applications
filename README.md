@@ -33,7 +33,9 @@ We extend the analysis by training a Random Forest classifier for land-cover cla
 
 Notebooks:  
 - **`data_preparation.ipynb`** : prepares training data  
-- **`FC_RF_Classifier.ipynb`** : trains and tests the classifier  
+- **`FC_RF_Classifier.ipynb`** : trains and tests the classifier
+
+<img width="1930" height="1083" alt="image" src="https://github.com/user-attachments/assets/8d881632-ef01-49f3-872b-b58a532099e9" />
 
 ---
 

@@ -31,10 +31,10 @@ data:
       S2L2A: ./data_FM/s2/patch/test/X/
 
     # labels
-    train_label_data_root: ./data_FM/s2/patch/train/y/labels.csv
-    val_label_data_root: ./data_FM/s2/patch/validation/y/labels.csv
-    test_label_data_root: ./data_FM/s2/patch/test/y/labels.csv
-
+    train_label_data_root: ./data_FM/s2/patch/train/y/
+    val_label_data_root: ./data_FM/s2/patch/validation/y/
+    test_label_data_root: ./data_FM/s2/patch/test/y/
+    
     dataset_bands:
       S2L2A:
         - COASTAL_AEROSOL
@@ -53,19 +53,19 @@ data:
     image_modalities: ["S2L2A"]
 
     means:
-      S2L2A: !!seq [1390.458, 1503.317, 1718.197, 1853.910,
+      S2L2A: [1390.458, 1503.317, 1718.197, 1853.910,
                      2199.100, 2779.975, 2987.011, 3083.234,
                      3132.220, 3162.988, 2424.884, 2000.0]
     
     stds:
-      S2L2A: !!seq [2106.761, 2141.107, 2038.973, 2134.138,
+      S2L2A: [2106.761, 2141.107, 2038.973, 2134.138,
                      2085.321, 1889.926, 1820.257, 1871.918,
                      1753.829, 1797.379, 1434.261, 1500.0]
 
 
 
 model:
-  class_path: terratorch.tasks.ClassificationTask
+  class_path: terratorch.tasks.classification_tasks.ClassificationTask
   init_args:
     model_factory: EncoderDecoderFactory
     model_args:

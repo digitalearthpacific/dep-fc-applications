@@ -1,31 +1,17 @@
 # lightning.pytorch==2.1.1
 seed_everything: 0
 trainer:
-  accelerator: auto
   strategy: auto
   devices: auto
   num_nodes: 1
   precision: 16-mixed
-  logger:
-    class_path: pytorch_lightning.loggers.TensorBoardLogger
-    init_args:
-      save_dir: /data_FM/output/
-      name: test
-  callbacks:
-    - class_path: pytorch_lightning.callbacks.RichProgressBar
-    - class_path: pytorch_lightning.callbacks.LearningRateMonitor
-      init_args:
-        logging_interval: epoch
-    - class_path: pytorch_lightning.callbacks.EarlyStopping
-      init_args:
-        monitor: val/loss
-        patience: 100
+  logger: True
+        
   max_epochs: 100
   check_val_every_n_epoch: 1
   log_every_n_steps: 20
-  enable_checkpointing: true
-  default_root_dir: /data_FM/output/
-
+  enable_checkpointing: True
+  default_root_dir: ./data_FM/output/
 
 data:
   class_path: terratorch.datamodules.GenericMultiModalDataModule
@@ -34,22 +20,21 @@ data:
     num_workers: 4
     task: classification
     num_classes: 7
-    modalities: ["S2L2A"]   # <- ADD THIS LINE
+    modalities: ["S2L2A"]   
 
     # imagery
     train_data_root:
-      S2L2A: /data_FM/s2/patch/train/X
+      S2L2A: ./data_FM/s2/patch/train/X/
     val_data_root:
-      S2L2A: /data_FM/s2/patch/validation/X
+      S2L2A: ./data_FM/s2/patch/validation/X/
     test_data_root:
-      S2L2A: /data_FM/s2/patch/test/X
+      S2L2A: ./data_FM/s2/patch/test/X/
 
     # labels
-    train_label_data_root: /data_FM/s2/patch/train/y/labels.csv
-    val_label_data_root: /data_FM/s2/patch/validation/y/labels.csv
-    test_label_data_root: /data_FM/s2/patch/test/y/labels.csv
+    train_label_data_root: ./data_FM/s2/patch/train/y/labels.csv
+    val_label_data_root: ./data_FM/s2/patch/validation/y/labels.csv
+    test_label_data_root: ./data_FM/s2/patch/test/y/labels.csv
 
-    # band mapping (your dataset → Terramind backbone)
     dataset_bands:
       S2L2A:
         - COASTAL_AEROSOL
@@ -67,25 +52,24 @@ data:
 
     image_modalities: ["S2L2A"]
 
-    # normalization
     means:
-      S2L2A: [1390.458, 1503.317, 1718.197, 1853.910,
-              2199.100, 2779.975, 2987.011, 3083.234,
-              3132.220, 3162.988, 2424.884, 2000.0]  
+      S2L2A: !!seq [1390.458, 1503.317, 1718.197, 1853.910,
+                     2199.100, 2779.975, 2987.011, 3083.234,
+                     3132.220, 3162.988, 2424.884, 2000.0]
     
     stds:
-      S2L2A: [2106.761, 2141.107, 2038.973, 2134.138,
-              2085.321, 1889.926, 1820.257, 1871.918,
-              1753.829, 1797.379, 1434.261, 1500.0]
+      S2L2A: !!seq [2106.761, 2141.107, 2038.973, 2134.138,
+                     2085.321, 1889.926, 1820.257, 1871.918,
+                     1753.829, 1797.379, 1434.261, 1500.0]
 
 
 
 model:
-  class_path: terratorch.tasks.ClassificationTask 
+  class_path: terratorch.tasks.ClassificationTask
   init_args:
     model_factory: EncoderDecoderFactory
     model_args:
-      backbone: "prithvi_eo_v1_100"
+      backbone: prithvi_eo_v1_100
       backbone_pretrained: true
       backbone_bands:
         S2L2A:
